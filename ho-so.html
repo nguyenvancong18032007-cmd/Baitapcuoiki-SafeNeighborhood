@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hồ sơ - SafeNeighborhood</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/ho-so.css">
+</head>
+<body class="trang-con-body">
+
+  <div class="trang-con-ho-so">
+    <!-- Header trang -->
+    <div class="dau-trang-ho-so">
+      <div>
+        <span class="nhan-nho">CƯ DÂN</span>
+        <h1>Hồ sơ</h1>
+        <p>Quản lý dữ liệu và theo dõi hoạt động trong một không gian thống nhất.</p>
+      </div>
+      <button type="button" class="nut nut-chinh" id="nutCapNhatTrang">Cập nhật</button>
+    </div>
+
+    <!-- Bố cục 2 cột chính -->
+    <div class="luoi-hai-cot">
+      <!-- Cột trái: Tổng quan dữ liệu & Bảng sự cố -->
+      <section class="the-bang-du-lieu">
+        <div class="dau-the-bang">
+          <div>
+            <h2>Tổng quan dữ liệu</h2>
+            <small>Cập nhật 5 phút trước</small>
+          </div>
+          <span class="nhan-trang-thai tim">&bull; Đang xử lý</span>
+        </div>
+
+        <!-- Thanh thao tác hàng loạt (Hiển thị khi chọn checkbox) -->
+        <div class="thanh-thao-tac-hang-loat" id="thanhHangLoat" hidden>
+          <span id="txtSoLuongChon">0 mục đã chọn</span>
+          <div class="nhom-nut-hang-loat">
+            <button type="button" class="nut nut-chinh nut-nho" id="nutTiepNhanHangLoat">Tiếp nhận</button>
+            <button type="button" class="nut nut-vien nut-nho" id="nutBoChon">Bỏ chọn</button>
+          </div>
+        </div>
+
+        <!-- Bảng danh sách dữ liệu -->
+        <div class="khung-cuon-bang">
+          <table class="bang-su-co">
+            <thead>
+              <tr>
+                <th style="width: 40px;"><input type="checkbox" id="checkTatCa"></th>
+                <th>MÃ SỰ CỐ</th>
+                <th>NỘI DUNG</th>
+                <th>KHU VỰC</th>
+                <th>ƯU TIÊN</th>
+                <th>TRẠNG THÁI</th>
+                <th>SLA CÒN LẠI</th>
+                <th style="width: 40px;"></th>
+              </tr>
+            </thead>
+            <tbody id="thanBangSuCo">
+              <!-- Dữ liệu được render qua JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Chân bảng & Phân trang -->
+        <div class="chan-bang">
+          <small id="txtHienThiKetQua">Hiển thị 1–4 trong 12 kết quả</small>
+          <div class="bo-phan-trang" id="boPhanTrang">
+            <button type="button" class="nut-trang" data-trang="prev">&lt;</button>
+            <button type="button" class="nut-trang dang-chon" data-trang="1">1</button>
+            <button type="button" class="nut-trang" data-trang="2">2</button>
+            <button type="button" class="nut-trang" data-trang="3">3</button>
+            <button type="button" class="nut-trang" data-trang="next">&gt;</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cột phải: Khối Safe AI Sidebar -->
+      <aside class="the-ai" id="theAI">
+        <div class="dau-ai">
+          <div class="logo-ai">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8zM18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/></svg>
+          </div>
+          <div>
+            <small>SAFE AI</small>
+            <h2>AI đề xuất mức ưu tiên</h2>
+          </div>
+          <span class="nhan-ai">&bull; AI</span>
+        </div>
+
+        <ol class="cac-buoc-ai" aria-label="Quy trình AI gồm 6 bước">
+          <li>1. Nhập</li><li>2. Phân tích</li><li>3. Kết quả</li>
+          <li>4. Giải thích</li><li>5. Kiểm soát</li><li>6. Lưu</li>
+        </ol>
+
+        <!-- Trạng thái AI -->
+        <div class="trang-thai-ai" id="trangThaiAI" hidden></div>
+
+        <!-- Khối Đề xuất Ưu tiên -->
+        <div class="ket-qua-ai">
+          <div class="the-uu-tien-ai">
+            <small>ƯU TIÊN ĐỀ XUẤT</small>
+            <strong class="muc-uu-tien cao" id="mucUuTienDeXuat">CAO</strong>
+            <span class="do-tin-cay" id="doTinCayAI">Độ tin cậy 91%</span>
+          </div>
+
+          <p class="ly-do-ai"><strong>AI-1 · Đề xuất ưu tiên</strong></p>
+          <p class="du-lieu-ai">Thông tin đầu vào: <strong id="maSuCoAI">#IS-2041</strong> · <span id="duLieuAI">P. Bến Nghé · Đang xử lý · SLA 6 giờ</span></p>
+          <div class="canh-bao-rui-ro">
+            <strong>AI-2 · Cảnh báo rủi ro</strong>
+            <span id="lyDoRuiRoAI">Nguy cơ mất an toàn giao thông vào ban đêm.</span>
+          </div>
+
+          <details class="vi-sao">
+            <summary>Vì sao có kết quả này?</summary>
+            <p id="lyDoChiTietAI">Dựa trên mức ảnh hưởng, thời gian tồn tại và dữ liệu hiện trường của sự cố đang chọn.</p>
+          </details>
+
+          <fieldset class="chon-uu-tien-ai" id="chonUuTienAI" hidden>
+            <legend>Chọn mức ưu tiên</legend>
+            <label><input type="radio" name="mucUuTienAI" value="cao"> Cao</label>
+            <label><input type="radio" name="mucUuTienAI" value="trung-binh"> Trung bình</label>
+            <label><input type="radio" name="mucUuTienAI" value="thap"> Thấp</label>
+            <button type="button" class="nut nut-chinh nut-nho" id="nutLuuUuTien">Lưu thay đổi</button>
+          </fieldset>
+
+          <!-- 4 Nút điều khiển AI -->
+          <div class="hang-nut-ai">
+            <button type="button" class="nut nut-chinh nut-nho" id="nutChapNhan">Chấp nhận</button>
+            <button type="button" class="nut nut-vien nut-nho" id="nutSua">Sửa</button>
+            <button type="button" class="nut-chu" id="nutTuChoi">Từ chối</button>
+            <button type="button" class="nut-chu nut-tim" id="nutTaoLai">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8z"/></svg>
+              Tạo lại
+            </button>
+          </div>
+          <button type="button" class="nut-kiem-thu-ai" id="nutKiemThuAI">Kiểm thử: AI thiếu dữ liệu</button>
+          <div class="hanh-dong-khong-chac-chan" id="hanhDongKhongChacChan" hidden>
+            <p>AI chưa chắc chắn (độ tin cậy 42%). Cần chuyên viên xác nhận.</p>
+            <button type="button" class="nut-chu nut-tim" id="nutThuLaiAI">Thử lại</button>
+            <button type="button" class="nut-chu" id="nutNhapThuCong">Chuyển sang nhập thủ công</button>
+          </div>
+        </div>
+      </aside>
+
+      <section class="the-copilot" aria-labelledby="tieuDeCopilot">
+        <div>
+          <small>AI-3 · TRỢ LÝ VẬN HÀNH</small>
+          <h2 id="tieuDeCopilot">Tóm tắt & kế hoạch xử lý</h2>
+          <p>Trợ lý phân tích danh sách sự cố đang hiển thị để hỗ trợ đội vận hành.</p>
+        </div>
+        <button type="button" class="nut nut-vien nut-nho" id="nutTaoKeHoach">Tạo kế hoạch</button>
+        <div class="ketQuaCopilot" id="ketQuaCopilot" hidden>
+          <p id="noiDungKeHoach"></p>
+          <button type="button" class="nut nut-chinh nut-nho" id="nutLuuKeHoach">Lưu vào sự cố đang chọn</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="js/ho-so.js"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeNeighborhood - Hệ thống báo cáo sự cố cộng đồng</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Hệ thống Sprite SVG Inline -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="bieu-tuong-khien" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9.5 12l2 2 3.5-4"/></symbol>
+    <symbol id="bieu-tuong-canh-bao" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3L2 20h20z"/><path d="M12 10v4M12 17v.5"/></symbol>
+    <symbol id="bieu-tuong-chuong" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9M10 21h4"/></symbol>
+    <symbol id="bieu-tuong-tim" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+    <symbol id="bieu-tuong-ban-do" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2zM9 4v14M15 6v14"/></symbol>
+    <symbol id="bieu-tuong-tai-lieu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M6 3h8l5 5v13H6zM14 3v5h5M9 13h7M9 17h7"/></symbol>
+    <symbol id="bieu-tuong-luoi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></symbol>
+    <symbol id="bieu-tuong-nguoi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M16 4a4 4 0 010 8M22 21c0-3-2-5-4-5.5"/></symbol>
+    <symbol id="bieu-tuong-ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8zM18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/></symbol>
+    <symbol id="bieu-tuong-nha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11l9-8 9 8v10h-6v-6H9v6H3z"/></symbol>
+    <symbol id="bieu-tuong-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="bieu-tuong-ba-cham" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></symbol>
+    <symbol id="bieu-tuong-tich" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="bieu-tuong-dong" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+  </svg>
+
+  <div class="khung-ung-dung">
+    <!-- Sidebar bên trái -->
+    <aside class="thanh-ben" id="thanhBen" aria-label="Thanh điều hướng">
+      <a class="thuong-hieu" href="index.html">
+        <span class="logo"><svg width="22" height="22"><use href="#bieu-tuong-khien"/></svg></span>
+        <span><strong>Safe<em>Neighborhood</em></strong><small>An toàn từ cộng đồng</small></span>
+      </a>
+
+      <div class="khoi-vai-tro">
+        <label for="chonVaiTro">Không gian làm việc</label>
+        <select id="chonVaiTro">
+          <option value="Cư dân">Cư dân</option>
+          <option value="Vận hành">Vận hành</option>
+          <option value="Điều phối">Điều phối</option>
+          <option value="Quản trị">Quản trị</option>
+        </select>
+      </div>
+
+      <nav>
+        <p class="tieu-de-nhom">Điều hướng</p>
+        <a class="muc-menu" href="ban-do-su-co.html" target="khungTrangCon">
+          <svg><use href="#bieu-tuong-ban-do"/></svg>Bản đồ sự cố
+        </a>
+        <a class="muc-menu dang-chon" href="bao-cao-su-co.html" target="khungTrangCon">
+          <svg><use href="#bieu-tuong-tai-lieu"/></svg>Báo cáo sự cố
+        </a>
+        <a class="muc-menu" href="su-co-cua-toi.html" target="khungTrangCon">
+          <svg><use href="#bieu-tuong-luoi"/></svg>Sự cố của tôi
+        </a>
+        <a class="muc-menu" href="ho-so.html" target="khungTrangCon">
+          <svg><use href="#bieu-tuong-nguoi"/></svg>Hồ sơ
+        </a>
+      </nav>
+
+      <nav class="nhom-duoi">
+        <p class="tieu-de-nhom">Tham chiếu</p>
+        <a class="muc-menu" href="design-system.html" target="khungTrangCon"><svg><use href="#bieu-tuong-luoi"/></svg>Design System</a>
+        <a class="muc-menu" href="ai-reference.html" target="khungTrangCon"><svg><use href="#bieu-tuong-ai"/></svg>AI States Reference</a>
+      </nav>
+
+      <div class="nguoi-dung-chan">
+        <span class="anh-dai-dien">NA</span>
+        <span><strong class="ten-nguoi-dung">Nguyễn Minh An</strong><small class="vai-tro-hien-tai">Cư dân</small></span>
+        <span class="ba-cham"><svg width="16" height="16"><use href="#bieu-tuong-ba-cham"/></svg></span>
+      </div>
+    </aside>
+
+    <!-- Khu vực chính chứa Topbar & Iframe -->
+    <div class="noi-dung-chinh">
+      <header class="thanh-tren">
+        <button class="nut-menu" id="nutMenu" aria-label="Mở menu"><svg width="22" height="22"><use href="#bieu-tuong-menu"/></svg></button>
+        
+        <div class="duong-dan">
+          <svg width="16" height="16"><use href="#bieu-tuong-nha"/></svg>
+          <span>/</span>
+          <strong id="tenTrangHienTai">Báo cáo sự cố</strong>
+        </div>
+
+        <div class="khoi-phai">
+          <label class="o-tim-kiem">
+            <svg width="18" height="18"><use href="#bieu-tuong-tim"/></svg>
+            <input type="search" id="oTimKiem" placeholder="Tìm kiếm mã sự cố, địa điểm...">
+            <kbd>⌘ K</kbd>
+          </label>
+
+          <div class="khoi-thong-bao">
+            <button class="nut-chuong" id="nutChuong" aria-label="Thông báo" aria-expanded="false">
+              <svg width="22" height="22"><use href="#bieu-tuong-chuong"/></svg>
+              <span class="huy-hieu" id="huyHieu">3</span>
+            </button>
+            <section class="hop-thong-bao" id="hopThongBao" hidden>
+              <div class="dau-hop">
+                <h2>Thông báo</h2>
+                <button id="nutDanhDauDaDoc">Đánh dấu đã đọc</button>
+              </div>
+              <ul id="danhSachThongBao"></ul>
+            </section>
+          </div>
+
+          <div class="nguoi-dung-tren">
+            <span class="anh-dai-dien">NA</span>
+            <span><strong class="ten-nguoi-dung-ngan">Minh An</strong><small class="vai-tro-hien-tai">Cư dân</small></span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Iframe nhúng trang nghiệp vụ -->
+      <main class="trang-chinh" id="trangChinh" style="padding: 0; overflow: hidden; height: calc(100vh - 66px);">
+        <iframe id="khungTrangCon" name="khungTrangCon" src="bao-cao-su-co.html" style="width: 100%; height: 100%; border: none; display: block;"></iframe>
+      </main>
+    </div>
+  </div>
+
+  <div class="khung-toast" id="khungToast" aria-live="polite"></div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

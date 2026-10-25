@@ -1,0 +1,197 @@
+.trang-con-body {
+  background: var(--nen, #f6f8fc);
+  padding: 4px 26px 26px;
+}
+
+.tieu-de-trang h1 {
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--chu, #0f172a);
+  margin: 0 0 4px;
+}
+
+.tieu-de-trang p {
+  color: var(--chu-phu, #64748b);
+  font-size: 13px;
+}
+
+/* Lưới 3 cột bố trí 7 thẻ AI UX */
+.luoi-7-trang-thai {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.the-ai-ref {
+  background: #fff;
+  border: 1px solid var(--vien, #e2e8f0);
+  border-radius: 12px;
+  min-height: 200px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(15,23,42,.04), 0 8px 20px rgba(15,23,42,.035);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.the-ai-ref:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15,23,42,.08);
+}
+
+.the-ai-ref.vien-vang {
+  border-color: #fcd34d;
+}
+
+.the-ai-ref.vien-do {
+  border-color: #fecaca;
+}
+
+.dau-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bieu-tuong-ai-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #fff;
+  display: grid;
+  place-items: center;
+}
+
+/* Các Badge loại trạng thái */
+.nhan-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.nhan-badge.gray { background: #f1f5f9; color: #64748b; }
+.nhan-badge.blue { background: #e0f2fe; color: #0284c7; }
+.nhan-badge.green { background: #dcfce7; color: #16a34a; }
+.nhan-badge.yellow { background: #fef3c7; color: #d97706; }
+.nhan-badge.red { background: #fee2e2; color: #dc2626; }
+.nhan-badge.purple { background: #f0eafd; color: #6d28d9; }
+
+.the-ai-ref h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--chu, #0f172a);
+  margin: 0;
+}
+
+.the-ai-ref p {
+  font-size: 11px;
+  color: var(--chu-phu, #64748b);
+  margin: 0;
+}
+
+/* Skeleton Loading lines */
+.skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skeleton-line {
+  height: 7px;
+  background: #e9eef5;
+  border-radius: 4px;
+}
+
+.skeleton-line.long { width: 100%; }
+.skeleton-line.medium { width: 78%; }
+.skeleton-line.short { width: 50%; }
+
+/* Progress Bar trong thẻ SUCCESS */
+.do-tin-cay-text {
+  font-size: 11px;
+  color: var(--chu-phu, #64748b);
+}
+
+.thanh-progress-tim {
+  height: 5px;
+  background: #ede9fe;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.thanh-progress-tim .chay {
+  height: 100%;
+  background: #6d28d9;
+  border-radius: 3px;
+}
+
+/* Hàng nút bấm phía dưới thẻ */
+.hang-nut-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.nut {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nut-chinh {
+  background: var(--xanh-chinh, #1e40af);
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(30, 64, 175, .2);
+}
+
+.nut-chinh:hover {
+  background: #1a3797;
+}
+
+.nut-nho {
+  padding: 7px 14px;
+  font-size: 10px;
+}
+
+.nut-chu {
+  padding: 6px 8px;
+  border: 0;
+  background: none;
+  color: #334155;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nut-do {
+  background: #dc2626;
+  color: #fff;
+  border: none;
+}
+.nut-do:hover {
+  background: #b91c1c;
+}
+
+/* Responsive hiển thị trên màn hình nhỏ */
+@media (max-width: 1024px) {
+  .luoi-7-trang-thai { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .luoi-7-trang-thai { grid-template-columns: 1fr; }
+  .trang-con-body { padding: 16px; }
+}

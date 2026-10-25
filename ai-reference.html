@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI States Reference - SafeNeighborhood</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/ai-reference.css">
+</head>
+<body class="trang-con-body">
+
+  <div class="trang-con-ai-ref">
+    <!-- Tiêu đề trang chuẩn AI UX Standard -->
+    <div class="tieu-de-trang">
+      <h1>AI States Reference</h1>
+      <p>Bảy trạng thái chuẩn dùng chung cho mọi trải nghiệm AI.</p>
+    </div>
+
+    <!-- Lưới 7 thẻ trạng thái AI UX -->
+    <div class="luoi-7-trang-thai">
+      
+      <!-- 1. Trạng thái IDLE -->
+      <div class="the-ai-ref">
+        <div class="dau-card">
+          <span class="bieu-tuong-ai-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8zM18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/></svg>
+          </span>
+          <span class="nhan-badge gray">&bull; IDLE</span>
+        </div>
+        <h3>Nhập thông tin để AI phân tích</h3>
+        <p>AI sẽ bắt đầu khi có đủ dữ liệu.</p>
+        <div class="hang-nut-card">
+          <button type="button" class="nut nut-chinh nut-nho" onclick="goiToast('Đã chạy hành động cho trạng thái IDLE', 'xanh-la')">Bắt đầu</button>
+        </div>
+      </div>
+
+      <!-- 2. Trạng thái LOADING -->
+      <div class="the-ai-ref">
+        <div class="dau-card">
+          <span class="bieu-tuong-ai-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8zM18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/></svg>
+          </span>
+          <span class="nhan-badge blue">&bull; LOADING</span>
+        </div>
+        <div class="skeleton-container">
+          <div class="skeleton-line long"></div>
+          <div class="skeleton-line medium"></div>
+          <div class="skeleton-line short"></div>
+        </div>
+        <h3>Đang phân tích...</h3>
+        <p>AI đang đối chiếu dữ liệu khu vực.</p>
+        <div class="hang-nut-card">
+          <button type="button" class="nut nut-chinh nut-nho" onclick="goiToast('Đã chạy hành động cho trạng thái LOADING', 'xanh-la')">Thử lại</button>
+        </div>
+      </div>
+
+      <!-- 3. Trạng thái SUCCESS -->
+      <div class="the-ai-ref">
+        <div class="dau-card">
+          <span class="bieu-tuong-ai-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8zM18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/></svg>
+          </span>
+          <span class="nhan-badge green">&bull; SUCCESS</span>
+        </div>
+        <h3>Đề xuất đã sẵn sàng</h3>
+        <small class="do-tin-cay-text">Độ tin cậy 87% &bull; Có thể áp dụng.</small>
+        <div class="thanh-progress-tim"><div class="chay" style="width: 87%;"></div></div>
+        <div class="hang-nut-card">
+          <button type="button" class="nut nut-chinh nut-nho" onclick="goiToast('Đã chạy hành động cho trạng thái SUCCESS', 'xanh-la')">Chấp nhận</button>
+          <button type="button" class="nut-chu" onclick="goiToast('Đã chuyển sang xử lý thủ công', 'xanh-la')">Dùng thủ công</button>
+        </div>
+      </div>
+
+      <!-- 4. Trạng thái UNCERTAIN -->
+      <div class="the-ai-ref vien-vang">
+        <div class="dau-card">
+          <span class="bieu-tuong-ai-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8zM18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/></svg>
+          </span>
+          <span class="nhan-badge yellow">&bull; UNCERTAIN</span>
+        </div>
+        <h3>AI chưa chắc chắn về kết quả này</h3>
+        <p>Kiểm tra lại hoặc dùng thủ công.</p>
+        <div class="hang-nut-card">
+          <button type="button" class="nut nut-chinh nut-nho" onclick="goiToast('Đã chạy hành động cho trạng thái UNCERTAIN', 'vang')">Thử lại</button>
+          <button type="button" class="nut-chu" onclick="goiToast('Đã chuyển sang xử lý thủ công', 'xanh-la')">Dùng thủ công</button>
+        </div>
+      </div>
+
+      <!-- 5. Trạng thái ERROR -->
+      <div class="the-ai-ref vien-do">
+        <div class="dau-card">
+          <span class="bieu-tuong-ai-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8zM18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/></svg>
+          </span>
+          <span class="nhan-badge red">&bull; ERROR</span>
+        </div>
+        <h3>Không thể xử lý yêu cầu lúc này</h3>
+        <p>Kết nối dịch vụ tạm thời gián đoạn.</p>
+        <div class="hang-nut-card">
+          <button type="button" class="nut nut-do nut-nho" onclick="goiToast('Đã chạy hành động cho trạng thái ERROR', 'do')">Thử lại</button>
+          <button type="button" class="nut-chu" onclick="goiToast('Đã báo cáo vấn đề', 'xanh-la')">Báo cáo vấn đề</button>
+        </div>
+      </div>
+
+      <!-- 6. Trạng thái EMPTY DATA -->
+      <div class="the-ai-ref">
+        <div class="dau-card">
+          <span class="bieu-tuong-ai-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8zM18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/></svg>
+          </span>
+          <span class="nhan-badge gray">&bull; EMPTY DATA</span>
+        </div>
+        <h3>Không đủ dữ liệu để đưa ra đề xuất</h3>
+        <p>Hãy bổ sung thêm thông tin.</p>
+        <div class="hang-nut-card">
+          <button type="button" class="nut nut-chinh nut-nho" onclick="goiToast('Đã chạy hành động cho trạng thái EMPTY DATA', 'xanh-la')">Thử lại</button>
+          <button type="button" class="nut-chu" onclick="goiToast('Đã chuyển sang xử lý thủ công', 'xanh-la')">Dùng thủ công</button>
+        </div>
+      </div>
+
+      <!-- 7. Trạng thái EDITED -->
+      <div class="the-ai-ref">
+        <div class="dau-card">
+          <span class="bieu-tuong-ai-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8zM18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/></svg>
+          </span>
+          <span class="nhan-badge purple">&bull; EDITED</span>
+        </div>
+        <h3>Đã chỉnh sửa thủ công</h3>
+        <p>Kết quả AI gốc vẫn được lưu.</p>
+        <div class="hang-nut-card">
+          <button type="button" class="nut nut-chinh nut-nho" onclick="goiToast('Đã chạy hành động cho trạng thái EDITED', 'tim')">Khôi phục gợi ý AI</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/ai-reference.js"></script>
+</body>
+</html>

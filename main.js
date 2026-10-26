@@ -98,12 +98,90 @@ document.addEventListener('keydown', (suKien) => {
   }
 });
 
+const mucDieuHuongTheoVaiTro = {
+  'Cư dân': [
+    { ten: 'Bản đồ sự cố', bieuTuong: 'bieu-tuong-ban-do', duongDan: 'ban-do-su-co.html' },
+    { ten: 'Báo cáo sự cố', bieuTuong: 'bieu-tuong-tai-lieu', duongDan: 'bao-cao-su-co.html' },
+    { ten: 'Sự cố của tôi', bieuTuong: 'bieu-tuong-luoi', duongDan: 'su-co-cua-toi.html' },
+    { ten: 'Hồ sơ', bieuTuong: 'bieu-tuong-nguoi', duongDan: 'ho-so.html' }
+  ],
+  'Vận hành': [
+    { ten: 'Hàng đợi sự cố', bieuTuong: 'bieu-tuong-ban-do', soLuong: '27' },
+    { ten: 'Chi tiết sự cố', bieuTuong: 'bieu-tuong-tai-lieu' },
+    { ten: 'Nhiệm vụ hiện trường', bieuTuong: 'bieu-tuong-luoi' },
+    { ten: 'Lịch sử xử lý', bieuTuong: 'bieu-tuong-nguoi' }
+  ],
+  'Điều phối': [
+    { ten: 'Bảng điều khiển khu vực', bieuTuong: 'bieu-tuong-ban-do' },
+    { ten: 'Bảng phân công', bieuTuong: 'bieu-tuong-tai-lieu' },
+    { ten: 'Theo dõi SLA', bieuTuong: 'bieu-tuong-luoi' },
+    { ten: 'Báo cáo', bieuTuong: 'bieu-tuong-nguoi' }
+  ],
+  'Quản trị': [
+    { ten: 'Loại sự cố', bieuTuong: 'bieu-tuong-ban-do' },
+    { ten: 'Khu vực', bieuTuong: 'bieu-tuong-tai-lieu' },
+    { ten: 'Người dùng', bieuTuong: 'bieu-tuong-luoi' },
+    { ten: 'Cấu hình hệ thống', bieuTuong: 'bieu-tuong-nguoi' },
+    { ten: 'Nhật ký hoạt động', bieuTuong: 'bieu-tuong-luoi' }
+  ]
+};
+
+function veMenuDieuHuong(vaiTro) {
+  const menu = layPhanTu('menuDieuHuong');
+  const cacMuc = mucDieuHuongTheoVaiTro[vaiTro];
+  if (!menu || !cacMuc) return;
+
+  menu.replaceChildren();
+  const tieuDe = document.createElement('p');
+  tieuDe.className = 'tieu-de-nhom';
+  tieuDe.textContent = 'Điều hướng';
+  menu.appendChild(tieuDe);
+
+  cacMuc.forEach((muc, chiSo) => {
+    const lienKet = document.createElement('a');
+    lienKet.className = 'muc-menu';
+    lienKet.href = muc.duongDan || '#';
+    lienKet.setAttribute('aria-current', 'false');
+    if (muc.duongDan) {
+      lienKet.target = 'khungTrangCon';
+    } else {
+      lienKet.dataset.noPage = 'true';
+    }
+    if ((vaiTro === 'Cư dân' && chiSo === 1) || (vaiTro !== 'Cư dân' && chiSo === 0)) {
+      lienKet.classList.add('dang-chon');
+      lienKet.setAttribute('aria-current', 'page');
+    }
+
+    const bieuTuong = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const suDung = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    suDung.setAttribute('href', '#' + muc.bieuTuong);
+    bieuTuong.appendChild(suDung);
+    lienKet.appendChild(bieuTuong);
+
+    const nhan = document.createElement('span');
+    nhan.textContent = muc.ten;
+    lienKet.appendChild(nhan);
+
+    if (muc.soLuong) {
+      const huyHieuMenu = document.createElement('span');
+      huyHieuMenu.className = 'huy-hieu-menu';
+      huyHieuMenu.textContent = muc.soLuong;
+      lienKet.appendChild(huyHieuMenu);
+    }
+
+    menu.appendChild(lienKet);
+  });
+}
+
 // Chuyển Role
 const chonVaiTroEl = layPhanTu('chonVaiTro');
 if (chonVaiTroEl) {
   chonVaiTroEl.addEventListener('change', (suKien) => {
     const vaiTroMoi = suKien.target.value;
     document.querySelectorAll('.vai-tro-hien-tai').forEach(el => el.textContent = vaiTroMoi);
+    veMenuDieuHuong(vaiTroMoi);
+    const mucMacDinh = document.querySelector('.muc-menu.dang-chon span');
+    if (mucMacDinh && tenTrangHienTaiEl) tenTrangHienTaiEl.textContent = mucMacDinh.textContent;
     hienToast('Đã chuyển sang không gian "' + vaiTroMoi + '"', 'xanh');
   });
 }
@@ -122,22 +200,32 @@ if (nutMenu && thanhBen) {
 }
 
 // Đồng bộ active menu & Breadcrumb Header
-const danhSachMucMenu = document.querySelectorAll('.muc-menu');
 const tenTrangHienTaiEl = layPhanTu('tenTrangHienTai');
 
-danhSachMucMenu.forEach((muc) => {
-  muc.addEventListener('click', function () {
-    danhSachMucMenu.forEach((m) => m.classList.remove('dang-chon'));
-    this.classList.add('dang-chon');
+document.addEventListener('click', (suKien) => {
+  const mucDuocChon = suKien.target.closest('.muc-menu');
+  if (!mucDuocChon) return;
 
-    if (tenTrangHienTaiEl) {
-      tenTrangHienTaiEl.textContent = this.textContent.trim();
-    }
-
-    if (window.innerWidth <= 900 && thanhBen) {
-      thanhBen.classList.remove('mo');
-    }
+  if (mucDuocChon.dataset.noPage === 'true') suKien.preventDefault();
+  document.querySelectorAll('.muc-menu').forEach((muc) => {
+    muc.classList.remove('dang-chon');
+    muc.setAttribute('aria-current', 'false');
   });
+  mucDuocChon.classList.add('dang-chon');
+  mucDuocChon.setAttribute('aria-current', 'page');
+
+  if (tenTrangHienTaiEl) {
+    const nhan = mucDuocChon.querySelector('span');
+    tenTrangHienTaiEl.textContent = nhan ? nhan.textContent : mucDuocChon.textContent.trim();
+  }
+
+  if (window.innerWidth <= 900 && thanhBen) {
+    thanhBen.classList.remove('mo');
+  }
+});
+
+document.querySelectorAll('.muc-menu').forEach((muc) => {
+  muc.setAttribute('aria-current', muc.classList.contains('dang-chon') ? 'page' : 'false');
 });
 
 veThongBao();

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết sự cố - SafeNeighborhood</title>
+  <link rel="stylesheet" href="chitietsuco.css">
+  <style>
+    body { background: #f8fafc; color: #0f172a; font-family: Inter, system-ui, sans-serif; }
+    .trang-chi-tiet { padding: 24px 28px; max-width: 1280px; margin: 0 auto; position: relative; }
+    .phien-nhan-vai-tro { font-size: 11px; font-weight: 700; color: #1e40af; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; }
+    .tieu-de-trang-khung { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px; }
+    .tieu-de-trang-khung h1 { font-size: 24px; font-weight: 700; color: #0f172a; line-height: 1.2; }
+    .mo-ta-trang { font-size: 13px; color: #64748b; margin-top: 3px; }
+    .nut-cap-nhat { background: #1d4ed8; color: #fff; border: none; padding: 9px 20px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; }
+    .nut-cap-nhat:hover { background: #1e40af; }
+    
+    .luoi-chi-tiet { display: grid; grid-template-columns: 1fr 310px; gap: 20px; align-items: start; }
+    .the-noi-dung, .the-tien-trinh { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px 24px 24px; }
+    
+    .dau-the { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
+    .ten-su-co { font-size: 15px; font-weight: 600; color: #0f172a; }
+    .nhan-trang-thai { background: #f3e8ff; color: #7e22ce; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+    .thoi-gian-cap-nhat { font-size: 12px; color: #64748b; margin-bottom: 16px; }
+    
+    .khung-ban-do { position: relative; width: 100%; height: 290px; background: #e4f1ed; border-radius: 10px; overflow: hidden; margin-bottom: 24px; border: 1px solid #cbd5e1; }
+    .duong-chinh-1 { position: absolute; width: 120%; height: 26px; background: #fff; top: 42%; left: -10%; transform: rotate(-7deg); }
+    .duong-chinh-2 { position: absolute; width: 24px; height: 120%; background: #fff; left: 50%; top: -10%; transform: rotate(14deg); }
+    .duong-phu-1 { position: absolute; width: 120%; height: 16px; background: #fff; top: 66%; left: -10%; transform: rotate(4deg); }
+    .duong-phu-2 { position: absolute; width: 120%; height: 12px; background: #fff; top: 22%; left: -10%; transform: rotate(10deg); }
+    .duong-doc-phu { position: absolute; width: 14px; height: 120%; background: #fff; left: 28%; top: -10%; transform: rotate(-5deg); }
+    
+    .nhan-map { position: absolute; font-size: 11px; font-weight: 700; color: #a0aec0; letter-spacing: .08em; text-transform: uppercase; z-index: 2; }
+    .nut-zoom { position: absolute; right: 14px; top: 14px; background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; display: flex; flex-direction: column; box-shadow: 0 2px 8px rgba(0,0,0,.08); z-index: 10; }
+    .nut-zoom button { border: none; background: none; width: 30px; height: 30px; font-weight: 700; font-size: 15px; color: #64748b; cursor: pointer; }
+    .nut-zoom button:first-child { border-bottom: 1px solid #e2e8f0; }
+    .ghim-container { position: absolute; transform: translate(-50%, -100%); z-index: 5; filter: drop-shadow(0 3px 5px rgba(0,0,0,.2)); }
+    
+    .luoi-thong-tin { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 32px; }
+    .muc-thong-tin label { display: block; font-size: 11px; color: #64748b; margin-bottom: 3px; }
+    .muc-thong-tin strong { font-size: 13.5px; font-weight: 600; color: #0f172a; }
+    
+    .the-tien-trinh h2 { font-size: 15px; font-weight: 700; margin-bottom: 20px; color: #0f172a; }
+    .danh-sach-tien-trinh { position: relative; padding-left: 26px; }
+    .danh-sach-tien-trinh::before { content: ''; position: absolute; left: 9px; top: 8px; bottom: 22px; width: 2px; background: #e2e8f0; }
+    .buoc-tien-trinh { position: relative; margin-bottom: 24px; }
+    .buoc-tien-trinh:last-child { margin-bottom: 0; }
+    .icon-buoc { position: absolute; left: -26px; top: 0; width: 20px; height: 20px; border-radius: 50%; background: #f1f5f9; color: #94a3b8; display: grid; place-items: center; font-size: 11px; font-weight: 700; }
+    .buoc-tien-trinh.da-xong .icon-buoc, .buoc-tien-trinh.dang-lam .icon-buoc { background: #dcfce7; color: #16a34a; }
+    .buoc-tien-trinh strong { display: block; font-size: 13px; font-weight: 600; color: #0f172a; }
+    .buoc-tien-trinh small { font-size: 11px; color: #64748b; }
+    
+    .toast-thong-bao { position: fixed; right: 24px; bottom: 24px; background: #fff; border: 1px solid #86efac; border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 16px rgba(15,23,42,.08); font-size: 12.5px; font-weight: 500; color: #16a34a; opacity: 0; transform: translateY(15px); transition: all .25s ease-out; z-index: 9999; pointer-events: none; }
+    .toast-thong-bao.hien { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .nut-dong-toast { border: none; background: none; color: #64748b; font-size: 14px; margin-left: 6px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <div class="trang-chi-tiet">
+    <div class="phien-nhan-vai-tro">VẬN HÀNH</div>
+    
+    <div class="tieu-de-trang-khung">
+      <div>
+        <h1>Chi tiết sự cố</h1>
+        <p class="mo-ta-trang">Thông tin đầy đủ, lịch sử cập nhật và các thao tác liên quan.</p>
+      </div>
+      <button class="nut-cap-nhat" id="nutCapNhat">Cập nhật</button>
+    </div>
+
+    <div class="luoi-chi-tiet">
+      <section class="the-noi-dung">
+        <div class="dau-the">
+          <h2 class="ten-su-co">#IS-2041 - Đèn đường không hoạt động</h2>
+          <span class="nhan-trang-thai">• Đang xử lý</span>
+        </div>
+        <p class="thoi-gian-cap-nhat">Cập nhật 5 phút trước</p>
+
+        <div class="khung-ban-do">
+          <div class="duong-chinh-1"></div>
+          <div class="duong-chinh-2"></div>
+          <div class="duong-phu-1"></div>
+          <div class="duong-phu-2"></div>
+          <div class="duong-doc-phu"></div>
+          
+          <span class="nhan-map" style="top: 25%; left: 36%;">BẾN NGHÉ</span>
+          <span class="nhan-map" style="bottom: 18%; right: 26%;">ĐA KAO</span>
+
+          <div class="ghim-container" style="top: 45%; left: 48%;">
+            <svg width="34" height="38" viewBox="0 0 24 28" fill="none">
+              <path d="M12 0C5.37 0 0 5.37 0 12C0 21 12 28 12 28C12 28 24 21 24 12C24 5.37 18.63 0 12 0Z" fill="#DC2626"/>
+              <circle cx="12" cy="11" r="4.5" fill="white"/>
+            </svg>
+          </div>
+
+          <div class="ghim-container" style="top: 55%; left: 62%;">
+            <svg width="30" height="34" viewBox="0 0 24 28" fill="none">
+              <path d="M12 0C5.37 0 0 5.37 0 12C0 21 12 28 12 28C12 28 24 21 24 12C24 5.37 18.63 0 12 0Z" fill="#F59E0B"/>
+              <circle cx="12" cy="11" r="4.5" fill="white"/>
+            </svg>
+          </div>
+
+          <div class="ghim-container" style="top: 65%; left: 51%;">
+            <svg width="30" height="34" viewBox="0 0 24 28" fill="none">
+              <path d="M12 0C5.37 0 0 5.37 0 12C0 21 12 28 12 28C12 28 24 21 24 12C24 5.37 18.63 0 12 0Z" fill="#2563EB"/>
+              <circle cx="12" cy="11" r="4.5" fill="white"/>
+            </svg>
+          </div>
+
+          <div class="nut-zoom">
+            <button type="button">+</button>
+            <button type="button">−</button>
+          </div>
+        </div>
+
+        <div class="luoi-thong-tin">
+          <div class="muc-thong-tin"><label>Khu vực</label><strong>P. Bến Nghé, Quận 1</strong></div>
+          <div class="muc-thong-tin"><label>Người báo</label><strong>Nguyễn Minh An</strong></div>
+          <div class="muc-thong-tin"><label>Loại sự cố</label><strong>Cơ sở hạ tầng</strong></div>
+          <div class="muc-thong-tin"><label>Thời hạn SLA</label><strong>Hôm nay, 17:30</strong></div>
+        </div>
+      </section>
+
+      <aside class="the-tien-trinh">
+        <h2>Tiến trình xử lý</h2>
+        <div class="danh-sach-tien-trinh">
+          <div class="buoc-tien-trinh da-xong"><div class="icon-buoc">✓</div><strong>Đã tiếp nhận báo cáo</strong><small>8:30 - Hôm nay</small></div>
+          <div class="buoc-tien-trinh da-xong"><div class="icon-buoc">✓</div><strong>Đã phân công</strong><small>9:30 - Hôm nay</small></div>
+          <div class="buoc-tien-trinh dang-lam"><div class="icon-buoc">✓</div><strong>Đang xử lý hiện trường</strong><small>10:30 - Hôm nay</small></div>
+          <div class="buoc-tien-trinh"><div class="icon-buoc">4</div><strong style="color: #64748b;">Hoàn thành</strong><small>Đang chờ cập nhật</small></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="toast-thong-bao" id="toastThongBao">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    <span>Thông tin đã được cập nhật</span>
+    <button class="nut-dong-toast" id="nutDongToast">×</button>
+  </div>
+
+  <script>
+    const nutCapNhat = document.getElementById('nutCapNhat');
+    const toastThongBao = document.getElementById('toastThongBao');
+    const nutDongToast = document.getElementById('nutDongToast');
+
+    nutCapNhat.addEventListener('click', () => {
+      toastThongBao.classList.add('hien');
+      if (window.parent && window.parent.hienToast) {
+        window.parent.hienToast('Thông tin đã được cập nhật', 'xanh-la');
+      }
+      setTimeout(() => toastThongBao.classList.remove('hien'), 3500);
+    });
+
+    nutDongToast.addEventListener('click', () => toastThongBao.classList.remove('hien'));
+  </script>
+</body>
+</html>

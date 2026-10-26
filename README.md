@@ -28,7 +28,7 @@ Dự án áp dụng mô hình **Lát cắt dọc (Vertical Slice)** kết hợp 
 | :---: | :--- | :---: | :--- | :--- | :--- |
 | **1** | **Nguyễn Văn Công** *(Trưởng nhóm)* | `2551060599` | **Cư dân (Primary User)** | **Trục 3:** Triển khai (Deployment), Quản lý Git Flow (`dev` → `main`), Kiểm thử Responsive đa thiết bị & QA. | `bao-cao-su-co.html`, `ai-reference.html` |
 | **2** | **Phạm Trí Cường** | *(Cập nhật MSV)* | **Vận hành & Quản trị (Operator / Admin)** | **Trục 1:** Thiết kế hệ thống (Design System / CSS Variables), Thanh điều hướng chung (Navigation/Role Switcher), Quản trị loại sự cố, người dùng & Nhiệm vụ hiện trường. | `ho-so.html` |
-
+| **3** | Nguyễn Duy Đạt | *(Cập nhật MSV)* | Điều phối & Quản trị (Coordinator / Moderator) | Trục 2: Xử lý dữ liệu sự cố (Data Pipeline / Validation), Theo dõi tiến độ SLA thời gian thực, Kiểm thử logic JS & Tương tác DOM. | su-co-cua-toi.html, chi-tiet-su-co.html, theo-doi-sla.html |
 ---
 
 ## 🔄 3. Chuỗi Truy Vết Minh Chứng 12 Mắt Xích (End-to-End Traceability Chain)

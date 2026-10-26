@@ -26,7 +26,7 @@ ul, ol { list-style: none; padding: 0; }
 small { font-size: 11px; }
 svg { flex-shrink: 0; }
 
-.khung-ung-dung { display: flex; min-height: 100vh; }
+.khung-ung-dung { display: flex; height: 100vh; height: 100dvh; }
 
 .thanh-ben {
   width: 226px;
@@ -67,8 +67,8 @@ svg { flex-shrink: 0; }
 .nguoi-dung-chan small { color: #a9bbe6; }
 .ba-cham { color: #a9bbe6; cursor: pointer; }
 
-.noi-dung-chinh { flex: 1; min-width: 0; }
-.thanh-tren { height: 66px; background: #fff; border-bottom: 1px solid var(--vien); display: flex; align-items: center; gap: 12px; padding: 0 28px; position: sticky; top: 0; z-index: 30; }
+.noi-dung-chinh { display: flex; flex: 1; flex-direction: column; min-width: 0; min-height: 0; }
+.thanh-tren { height: 66px; flex: 0 0 66px; background: #fff; border-bottom: 1px solid var(--vien); display: flex; align-items: center; gap: 12px; padding: 0 28px; position: relative; z-index: 30; }
 .duong-dan { display: flex; align-items: center; gap: 8px; color: var(--chu-phu); font-size: 13.5px; }
 .duong-dan strong { color: var(--chu); font-weight: 600; }
 .khoi-phai { margin-left: auto; display: flex; align-items: center; gap: 18px; }
@@ -105,7 +105,8 @@ kbd { font: 10px Inter, sans-serif; border: 1px solid var(--vien); border-radius
 .hop-thong-bao strong { font-size: 12px; font-weight: 600; display: block; }
 .hop-thong-bao small { color: #94a3b8; font-size: 10.5px; }
 
-.trang-chinh { padding: 30px 28px 40px; max-width: 1280px; }
+.trang-chinh { flex: 1; min-width: 0; min-height: 0; overflow: hidden; }
+.khung-trang-con { display: block; width: 100%; height: 100%; border: 0; }
 .khung-toast { position: fixed; right: 24px; bottom: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 100; }
 .toast { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 8px; border-left: 4px solid var(--xanh-la); box-shadow: 0 8px 28px rgba(15,23,42,.18); padding: 12px 16px; font-size: 12px; font-weight: 600; color: var(--xanh-la); }
 .toast.tim { border-color: var(--tim); color: var(--tim); }
@@ -121,7 +122,6 @@ kbd { font: 10px Inter, sans-serif; border: 1px solid var(--vien); border-radius
   .thanh-ben.mo { transform: none; box-shadow: 0 0 0 100vmax rgba(15,23,42,.45); }
   .nut-menu { display: grid; }
   .thanh-tren { padding: 0 16px; }
-  .trang-chinh { padding: 20px 16px 32px; }
   .o-tim-kiem { display: none; }
   .nguoi-dung-tren span:last-child { display: none; }
   .nguoi-dung-tren { padding-left: 0; border: 0; }

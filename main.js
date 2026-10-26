@@ -108,7 +108,7 @@ const mucDieuHuongTheoVaiTro = {
   'Vận hành': [
     { ten: 'Hàng đợi sự cố', bieuTuong: 'bieu-tuong-ban-do', soLuong: '27' },
     { ten: 'Chi tiết sự cố', bieuTuong: 'bieu-tuong-tai-lieu' },
-    { ten: 'Nhiệm vụ hiện trường', bieuTuong: 'bieu-tuong-luoi' },
+    { ten: 'Nhiệm vụ hiện trường', bieuTuong: 'bieu-tuong-luoi', duongDan: 'index3.html' },
     { ten: 'Lịch sử xử lý', bieuTuong: 'bieu-tuong-nguoi' }
   ],
   'Điều phối': [
@@ -118,11 +118,11 @@ const mucDieuHuongTheoVaiTro = {
     { ten: 'Báo cáo', bieuTuong: 'bieu-tuong-nguoi' }
   ],
   'Quản trị': [
-    { ten: 'Loại sự cố', bieuTuong: 'bieu-tuong-ban-do' },
-    { ten: 'Khu vực', bieuTuong: 'bieu-tuong-tai-lieu' },
-    { ten: 'Người dùng', bieuTuong: 'bieu-tuong-luoi' },
-    { ten: 'Cấu hình hệ thống', bieuTuong: 'bieu-tuong-nguoi' },
-    { ten: 'Nhật ký hoạt động', bieuTuong: 'bieu-tuong-luoi' }
+    { ten: 'Loại sự cố', bieuTuong: 'bieu-tuong-ban-do', duongDan: 'index1.html' },
+    { ten: 'Khu vực', bieuTuong: 'bieu-tuong-tai-lieu', duongDan: 'index1.html' },
+    { ten: 'Người dùng', bieuTuong: 'bieu-tuong-luoi', duongDan: 'index2.html' },
+    { ten: 'Cấu hình hệ thống', bieuTuong: 'bieu-tuong-nguoi', duongDan: 'index1.html' },
+    { ten: 'Nhật ký hoạt động', bieuTuong: 'bieu-tuong-luoi', duongDan: 'index1.html' }
   ]
 };
 
@@ -173,6 +173,13 @@ function veMenuDieuHuong(vaiTro) {
   });
 }
 
+function capNhatKhungTrangCon(duongDan) {
+  const khungTrangCon = layPhanTu('khungTrangCon');
+  if (khungTrangCon && duongDan) {
+    khungTrangCon.src = duongDan;
+  }
+}
+
 // Chuyển Role
 const chonVaiTroEl = layPhanTu('chonVaiTro');
 if (chonVaiTroEl) {
@@ -180,8 +187,13 @@ if (chonVaiTroEl) {
     const vaiTroMoi = suKien.target.value;
     document.querySelectorAll('.vai-tro-hien-tai').forEach(el => el.textContent = vaiTroMoi);
     veMenuDieuHuong(vaiTroMoi);
-    const mucMacDinh = document.querySelector('.muc-menu.dang-chon span');
-    if (mucMacDinh && tenTrangHienTaiEl) tenTrangHienTaiEl.textContent = mucMacDinh.textContent;
+    const mucMacDinh = document.querySelector('.muc-menu.dang-chon');
+    if (mucMacDinh) {
+      const link = mucMacDinh.href;
+      if (link && link !== window.location.href) capNhatKhungTrangCon(link);
+      const nhan = mucMacDinh.querySelector('span');
+      if (tenTrangHienTaiEl) tenTrangHienTaiEl.textContent = nhan ? nhan.textContent : mucMacDinh.textContent.trim();
+    }
     hienToast('Đã chuyển sang không gian "' + vaiTroMoi + '"', 'xanh');
   });
 }
@@ -214,6 +226,11 @@ document.addEventListener('click', (suKien) => {
   mucDuocChon.classList.add('dang-chon');
   mucDuocChon.setAttribute('aria-current', 'page');
 
+  if (mucDuocChon.href && mucDuocChon.href !== window.location.href) {
+    const duongDan = mucDuocChon.getAttribute('href');
+    capNhatKhungTrangCon(duongDan);
+  }
+
   if (tenTrangHienTaiEl) {
     const nhan = mucDuocChon.querySelector('span');
     tenTrangHienTaiEl.textContent = nhan ? nhan.textContent : mucDuocChon.textContent.trim();
@@ -227,5 +244,20 @@ document.addEventListener('click', (suKien) => {
 document.querySelectorAll('.muc-menu').forEach((muc) => {
   muc.setAttribute('aria-current', muc.classList.contains('dang-chon') ? 'page' : 'false');
 });
+
+if (chonVaiTroEl) {
+  veMenuDieuHuong(chonVaiTroEl.value);
+  const mucMacDinh = document.querySelector('.muc-menu.dang-chon');
+  if (mucMacDinh) {
+    capNhatKhungTrangCon(mucMacDinh.getAttribute('href'));
+    const nhan = mucMacDinh.querySelector('span');
+    if (tenTrangHienTaiEl) {
+      tenTrangHienTaiEl.textContent = nhan ? nhan.textContent : mucMacDinh.textContent.trim();
+    }
+  }
+  document.querySelectorAll('.vai-tro-hien-tai').forEach((el) => {
+    el.textContent = chonVaiTroEl.value;
+  });
+}
 
 veThongBao();

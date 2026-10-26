@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f9fc">
+  <title>Nhiệm vụ hiện trường</title>
+  <link rel="stylesheet" href="css/style3.css">
+</head>
+<body>
+  <main class="trang">
+    <header class="dau-trang">
+      <div>
+        <p class="nhan-trang">CÔNG VIỆC HIỆN TRƯỜNG</p>
+        <h1>Nhiệm vụ hiện trường</h1>
+        <p class="mo-ta">Theo dõi công việc từ lúc tiếp nhận đến khi hoàn thành.</p>
+      </div>
+      <div class="khu-vuc-che-do">
+        <div class="chuyen-che-do" role="group" aria-label="Chế độ hiển thị">
+          <button class="nut-che-do dang-chon" id="xemKanban" type="button" aria-pressed="true">
+            <span aria-hidden="true">▦</span> Tất cả
+          </button>
+          <button class="nut-che-do" id="xemDanhSach" type="button" aria-pressed="false">
+            <span aria-hidden="true">▤</span> Danh sách
+          </button>
+          <button class="nut-tao-trigger" id="nutTaoNhiemVuTrigger" type="button" aria-label="Hiện nút tạo nhiệm vụ"></button>
+          <button class="nut-tao-nhiem-vu" id="nutTaoNhiemVu" type="button">
+            <span aria-hidden="true">＋</span> Tạo nhiệm vụ
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="bang-kanban" id="bangKanban" aria-label="Bảng nhiệm vụ Kanban"></section>
+    <section class="khung-danh-sach" id="khungDanhSach" aria-label="Danh sách nhiệm vụ" hidden>
+      <div class="thanh-loc">
+        <label for="timNhiemVu">Tìm nhiệm vụ</label>
+        <input id="timNhiemVu" type="search" placeholder="Tìm theo mã, nội dung hoặc khu vực">
+        <label for="locTrangThai">Trạng thái</label>
+        <select id="locTrangThai">
+          <option value="">Tất cả trạng thái</option>
+          <option value="pending">Chưa bắt đầu</option>
+          <option value="progress">Đang thực hiện</option>
+          <option value="done">Hoàn thành</option>
+        </select>
+      </div>
+      <div class="cuon-bang">
+        <table>
+          <thead>
+            <tr><th>Mã nhiệm vụ</th><th>Nội dung</th><th>Khu vực</th><th>Thời hạn</th><th>Trạng thái</th><th>Tiến độ</th><th>Thao tác</th></tr>
+          </thead>
+          <tbody id="danhSachNhiemVu"></tbody>
+        </table>
+        <p class="khong-co-ket-qua" id="khongCoKetQua" hidden>Không tìm thấy nhiệm vụ phù hợp.</p>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="hop-chi-tiet" id="hopChiTiet">
+    <form method="dialog">
+      <header class="dau-hop">
+        <div><p class="nhan-trang">CHI TIẾT NHIỆM VỤ</p><h2 id="chiTietTieuDe"></h2></div>
+        <button class="nut-dong" aria-label="Đóng" value="close">×</button>
+      </header>
+      <p class="ma-chi-tiet" id="chiTietMa"></p>
+      <dl class="thong-tin-chi-tiet">
+        <div><dt>Khu vực</dt><dd id="chiTietKhuVuc"></dd></div>
+        <div><dt>Thời hạn</dt><dd id="chiTietThoiHan"></dd></div>
+        <div><dt>Người phụ trách</dt><dd>Nguyễn Thành</dd></div>
+        <div><dt>Tiến độ</dt><dd id="chiTietTienDo"></dd></div>
+      </dl>
+      <div class="thanh-tien-do"><span id="chiTietThanhTienDo"></span></div>
+      <footer class="hanh-dong-hop">
+        <button class="nut nut-vien" value="close">Đóng</button>
+        <button class="nut nut-chinh" id="chiTietHanhDong" type="button"></button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="hop-chi-tiet hop-tao-nhiem-vu" id="hopTaoNhiemVu">
+    <form id="formTaoNhiemVu">
+      <header class="dau-hop">
+        <div><p class="nhan-trang">CÔNG VIỆC HIỆN TRƯỜNG</p><h2>Tạo nhiệm vụ</h2></div>
+        <button class="nut-dong" id="nutDongTaoNhiemVu" type="button" aria-label="Đóng">×</button>
+      </header>
+      <label for="tenNhiemVuMoi">Tên nhiệm vụ</label>
+      <input id="tenNhiemVuMoi" name="ten" required maxlength="100" placeholder="Ví dụ: Đèn đường không hoạt động">
+      <label for="khuVucMoi">Khu vực</label>
+      <input id="khuVucMoi" name="khuVuc" required maxlength="100" placeholder="Ví dụ: P. Bến Nghé, Quận 1">
+      <label for="thoiHanMoi">Thời hạn</label>
+      <input id="thoiHanMoi" name="thoiHan" required maxlength="60" placeholder="Ví dụ: Ngày mai, 16:00">
+      <footer class="hanh-dong-hop">
+        <button class="nut nut-vien" id="nutHuyTaoNhiemVu" type="button">Hủy</button>
+        <button class="nut nut-chinh" type="submit">Tạo nhiệm vụ</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <div class="khung-toast" id="khungToast" aria-live="polite" aria-atomic="true"></div>
+  <script src="js/main3.js"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f8fc">
+  <title>Quản trị loại sự cố - SafeNeighborhood</title>
+  <link rel="stylesheet" href="css/style1.css">
+</head>
+<body>
+  <main class="trang">
+    <header class="dau-trang">
+      <div>
+        <p class="nhan-trang">QUẢN TRỊ</p>
+        <h1>Loại sự cố</h1>
+        <p class="mo-ta">Quản lý dữ liệu và theo dõi hoạt động trong một không gian thống nhất.</p>
+      </div>
+      <button class="nut nut-chinh" id="nutThemMoi" type="button">Thêm mới</button>
+    </header>
+
+    <section class="bo-cuc" aria-label="Quản lý loại sự cố">
+      <section class="the-bang">
+        <div class="dau-bang">
+          <div>
+            <h2>Tổng quan dữ liệu</h2>
+            <p>Cập nhật 5 phút trước</p>
+          </div>
+          <span class="huy-hieu huy-hieu-tim"><span class="cham"></span>Đang xử lý</span>
+        </div>
+
+        <div class="khung-bang">
+          <div class="thanh-chon" id="thanhChon" hidden>
+            <strong id="soMucDaChon">0 mục đã chọn</strong>
+            <div class="hanh-dong-chon">
+              <button class="nut nut-chinh nut-nho" id="nutTiepNhan" type="button">Tiếp nhận</button>
+              <button class="nut nut-trong" id="nutBoChon" type="button">Bỏ chọn</button>
+            </div>
+          </div>
+
+          <div class="cuon-bang">
+            <table>
+              <thead>
+                <tr>
+                  <th class="cot-checkbox">
+                    <input id="chonTatCa" type="checkbox" aria-label="Chọn tất cả mục trên trang">
+                  </th>
+                  <th>Mã sự cố</th>
+                  <th>Nội dung</th>
+                  <th>Khu vực</th>
+                  <th>Trạng thái</th>
+                  <th>SLA còn lại</th>
+                  <th><span class="an-van-ban">Thao tác</span></th>
+                </tr>
+              </thead>
+              <tbody id="danhSachSuCo"></tbody>
+            </table>
+          </div>
+
+          <footer class="chan-bang">
+            <span id="thongTinTrang"></span>
+            <nav class="phan-trang" id="phanTrang" aria-label="Phân trang"></nav>
+          </footer>
+        </div>
+      </section>
+
+      <aside class="the-ai" aria-label="Đề xuất Safe AI">
+        <header class="dau-ai">
+          <span class="bieu-tuong-ai" aria-hidden="true">✦</span>
+          <div class="tieu-de-ai">
+            <strong>SAFE AI</strong>
+            <span>AI đề xuất mức ưu tiên</span>
+          </div>
+          <span class="huy-hieu huy-hieu-tim"><span class="cham"></span>AI</span>
+        </header>
+
+        <div class="trang-thai-ai" id="trangThaiAi" hidden></div>
+
+        <section class="muc-uu-tien" aria-label="Mức ưu tiên được đề xuất">
+          <small>ƯU TIÊN ĐỀ XUẤT</small>
+          <strong>CAO</strong>
+          <span>Độ tin cậy 91%</span>
+        </section>
+
+        <p class="ly-do-ai">Có nguy cơ ảnh hưởng an toàn giao thông vào ban đêm.</p>
+
+        <details class="giai-thich-ai">
+          <summary>Vì sao có kết quả này?</summary>
+          <p>Sự cố liên quan đến đèn đường không hoạt động, có thể làm giảm tầm nhìn và tăng nguy cơ mất an toàn giao thông.</p>
+        </details>
+
+        <div class="nut-ai">
+          <button class="nut nut-chinh nut-nho" id="nutChapNhan" type="button">Chấp nhận</button>
+          <button class="nut nut-vien nut-nho" id="nutSua" type="button">Sửa</button>
+          <button class="nut nut-text nut-nho" id="nutTuChoi" type="button">Từ chối</button>
+          <button class="nut nut-text nut-nho nut-tao-lai" id="nutTaoLai" type="button">✦ Tạo lại</button>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <dialog id="hopThemMoi" class="hop-thoai">
+    <form id="formThemMoi" class="form-them-moi">
+      <header class="dau-hop-thoai">
+        <div>
+          <h2>Thêm sự cố</h2>
+          <p>Nhập thông tin sự cố mới.</p>
+        </div>
+        <button class="nut-dong" type="button" id="nutDongHop" aria-label="Đóng">×</button>
+      </header>
+
+      <label for="noiDungMoi">Nội dung sự cố</label>
+      <input id="noiDungMoi" name="noiDung" required maxlength="100" placeholder="Ví dụ: Đèn đường không hoạt động">
+
+      <label for="khuVucMoi">Khu vực</label>
+      <input id="khuVucMoi" name="khuVuc" required maxlength="100" placeholder="Ví dụ: P. Bến Nghé, Quận 1">
+
+      <label for="trangThaiMoi">Trạng thái</label>
+      <select id="trangThaiMoi" name="trangThai">
+        <option>Đang chờ</option>
+        <option>Đang xử lý</option>
+        <option>Đã phân công</option>
+        <option>Hoàn thành</option>
+      </select>
+
+      <footer class="hanh-dong-hop">
+        <button class="nut nut-vien" type="button" id="nutHuyThem">Hủy</button>
+        <button class="nut nut-chinh" type="submit">Tạo sự cố</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <div class="khung-toast" id="khungToast" aria-live="polite" aria-atomic="true"></div>
+  <script src="js/main1.js"></script>
+</body>
+</html>

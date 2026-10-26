@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SafeNeighborhood - Hệ thống báo cáo sự cố cộng đồng</title>
+  <script>
+    if (window.self !== window.top) {
+      window.location.replace('index1.html');
+    }
+  </script>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -40,7 +45,7 @@
           <option value="Cư dân">Cư dân</option>
           <option value="Vận hành">Vận hành</option>
           <option value="Điều phối">Điều phối</option>
-          <option value="Quản trị">Quản trị</option>
+          <option value="Quản trị" selected>Quản trị</option>
         </select>
       </div>
 
@@ -113,8 +118,8 @@
       </header>
 
       <!-- Iframe nhúng trang nghiệp vụ -->
-      <main class="trang-chinh" id="trangChinh" style="padding: 0; overflow: hidden; height: calc(100vh - 66px);">
-        <iframe id="khungTrangCon" name="khungTrangCon" src="bao-cao-su-co.html" style="width: 100%; height: 100%; border: none; display: block;"></iframe>
+      <main class="trang-chinh" id="trangChinh">
+        <iframe class="khung-trang-con" id="khungTrangCon" name="khungTrangCon" src="index1.html" title="Nội dung trang quản trị"></iframe>
       </main>
     </div>
   </div>

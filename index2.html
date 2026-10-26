@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f8fc">
+  <title>Quản lý người dùng - SafeNeighborhood</title>
+  <link rel="stylesheet" href="css/style2.css">
+</head>
+<body>
+  <main class="trang">
+    <header class="dau-trang">
+      <div>
+        <p class="nhan-trang">QUẢN TRỊ HỆ THỐNG</p>
+        <h1>Quản lý người dùng</h1>
+        <p class="mo-ta">Quản lý quyền truy cập và trạng thái tài khoản.</p>
+      </div>
+      <button class="nut nut-chinh" id="nutThemNguoiDung" type="button">
+        <span aria-hidden="true">＋</span> Thêm người dùng
+      </button>
+    </header>
+
+    <section class="the-thong-ke" aria-label="Thống kê người dùng">
+      <article class="the-so the-so-xanh">
+        <span class="bieu-tuong" aria-hidden="true">▤</span>
+        <div><span class="nhan-so">Tổng người dùng</span><strong>12.480</strong><small><b>+8,4%</b> so với hôm qua</small></div>
+      </article>
+      <article class="the-so the-so-do">
+        <span class="bieu-tuong" aria-hidden="true">▤</span>
+        <div><span class="nhan-so">Đang hoạt động</span><strong>11.892</strong><small><b>+4,1%</b> so với hôm qua</small></div>
+      </article>
+      <article class="the-so the-so-tim">
+        <span class="bieu-tuong" aria-hidden="true">◷</span>
+        <div><span class="nhan-so">Chờ xác nhận</span><strong>36</strong><small><b>−12%</b> so với hôm qua</small></div>
+      </article>
+      <article class="the-so the-so-la">
+        <span class="bieu-tuong" aria-hidden="true">✓</span>
+        <div><span class="nhan-so">Bị khóa</span><strong>18</strong><small><b>+2</b> so với hôm qua</small></div>
+      </article>
+    </section>
+
+    <form class="bo-loc" id="formBoLoc">
+      <label>Khu vực
+        <select id="locKhuVuc">
+          <option value="">Tất cả khu vực</option>
+        </select>
+      </label>
+      <label>Mức ưu tiên
+        <select id="locUuTien">
+          <option value="">Tất cả</option>
+          <option value="Cao">Cao</option>
+          <option value="Trung bình">Trung bình</option>
+          <option value="Thấp">Thấp</option>
+        </select>
+      </label>
+      <label>Trạng thái
+        <select id="locTrangThai">
+          <option value="">Tất cả trạng thái</option>
+          <option value="Hoạt động">Hoạt động</option>
+          <option value="Chờ xác nhận">Chờ xác nhận</option>
+          <option value="Bị khóa">Bị khóa</option>
+        </select>
+      </label>
+      <label>Sắp xếp
+        <select id="locSapXep">
+          <option value="priority">Ưu tiên cao nhất</option>
+          <option value="name">Tên A → Z</option>
+          <option value="newest">Mới tham gia</option>
+        </select>
+      </label>
+      <button class="nut nut-vien nut-loc" type="submit">Lọc</button>
+    </form>
+
+    <section class="the-bang" aria-label="Danh sách người dùng">
+      <div class="thanh-chon" id="thanhChon" hidden>
+        <strong id="soMucDaChon">0 mục đã chọn</strong>
+        <div class="hanh-dong-chon">
+          <button class="nut nut-chinh nut-nho" id="nutCapNhatQuyen" type="button">Cập nhật quyền</button>
+          <button class="nut nut-text nut-nho" id="nutBoChon" type="button">Bỏ chọn</button>
+        </div>
+      </div>
+      <div class="cuon-bang">
+        <table>
+          <thead>
+            <tr>
+              <th class="cot-checkbox"><input id="chonTatCa" type="checkbox" aria-label="Chọn tất cả người dùng trên trang"></th>
+              <th>Người dùng</th>
+              <th>Vai trò</th>
+              <th>Khu vực</th>
+              <th>Trạng thái</th>
+              <th>Ngày tham gia</th>
+              <th><span class="an-van-ban">Thao tác</span></th>
+            </tr>
+          </thead>
+          <tbody id="danhSachNguoiDung"></tbody>
+        </table>
+      </div>
+      <footer class="chan-bang">
+        <span id="thongTinTrang" aria-live="polite"></span>
+        <nav class="phan-trang" id="phanTrang" aria-label="Phân trang"></nav>
+      </footer>
+    </section>
+  </main>
+
+  <dialog id="hopNguoiDung" class="hop-thoai">
+    <form id="formNguoiDung" class="form-hop">
+      <header class="dau-hop">
+        <div><h2 id="tieuDeHop">Thêm người dùng</h2><p>Nhập thông tin tài khoản người dùng.</p></div>
+        <button class="nut-dong" type="button" data-close="hopNguoiDung" aria-label="Đóng">×</button>
+      </header>
+      <input type="hidden" id="idNguoiDung">
+      <label for="tenNguoiDung">Họ và tên</label>
+      <input id="tenNguoiDung" name="name" required maxlength="80" placeholder="Ví dụ: Nguyễn Minh An">
+      <label for="emailNguoiDung">Email</label>
+      <input id="emailNguoiDung" name="email" type="email" required maxlength="120" placeholder="ten@example.com">
+      <label for="vaiTroNguoiDung">Vai trò</label>
+      <select id="vaiTroNguoiDung" name="role">
+        <option>Cư dân</option><option>Vận hành</option><option>Điều phối</option><option>Admin</option>
+      </select>
+      <label for="khuVucNguoiDung">Khu vực</label>
+      <select id="khuVucNguoiDung" name="area"></select>
+      <label for="uuTienNguoiDung">Mức ưu tiên</label>
+      <select id="uuTienNguoiDung" name="priority">
+        <option>Cao</option><option selected>Trung bình</option><option>Thấp</option>
+      </select>
+      <footer class="hanh-dong-hop">
+        <button class="nut nut-vien" type="button" data-close="hopNguoiDung">Hủy</button>
+        <button class="nut nut-chinh" type="submit" id="nutLuuNguoiDung">Thêm người dùng</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog id="hopCapNhatQuyen" class="hop-thoai hop-nho">
+    <form id="formCapNhatQuyen" class="form-hop">
+      <header class="dau-hop">
+        <div><h2>Cập nhật quyền</h2><p id="moTaCapNhatQuyen"></p></div>
+        <button class="nut-dong" type="button" data-close="hopCapNhatQuyen" aria-label="Đóng">×</button>
+      </header>
+      <label for="vaiTroHangLoat">Vai trò mới</label>
+      <select id="vaiTroHangLoat">
+        <option>Cư dân</option><option>Vận hành</option><option>Điều phối</option><option>Admin</option>
+      </select>
+      <footer class="hanh-dong-hop">
+        <button class="nut nut-vien" type="button" data-close="hopCapNhatQuyen">Hủy</button>
+        <button class="nut nut-chinh" type="submit">Cập nhật</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <div class="khung-toast" id="khungToast" aria-live="polite" aria-atomic="true"></div>
+  <script src="js/main2.js"></script>
+</body>
+</html>

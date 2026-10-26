@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theo dõi SLA - SafeNeighborhood</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #f8fafc; color: #0f172a; font-family: Inter, system-ui, sans-serif; padding: 24px; }
+    .trang-sla { max-width: 1280px; margin: 0 auto; }
+    
+    .nhan-chuyen-muc { font-size: 11px; font-weight: 700; color: #1e40af; text-transform: uppercase; margin-bottom: 4px; }
+    .tieu-de-khung { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+    .tieu-de-khung h1 { font-size: 24px; font-weight: 700; }
+    .mo-ta-trang { font-size: 13px; color: #64748b; margin-top: 2px; }
+    
+    .nut-dieu-chinh-sla { background: #1d4ed8; color: #fff; border: none; padding: 9px 18px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; }
+    .nut-dieu-chinh-sla:hover { background: #1e40af; }
+
+    .luoi-thong-ke { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+    .the-thong-ke { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 14px; }
+    .icon-tk { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; flex-shrink: 0; }
+    .icon-tk.xanh-duong { background: #eff6ff; color: #2563eb; }
+    .icon-tk.do { background: #fef2f2; color: #ef4444; }
+    .icon-tk.tim { background: #f3e8ff; color: #7e22ce; }
+    .icon-tk.xanh-la { background: #f0fdf4; color: #16a34a; }
+    .noi-dung-tk label { display: block; font-size: 11px; color: #64748b; margin-bottom: 2px; }
+    .noi-dung-tk strong { font-size: 20px; font-weight: 700; }
+    .noi-dung-tk small { display: block; font-size: 10.5px; margin-top: 4px; font-weight: 600; }
+    .tang { color: #16a34a; }
+    .giam { color: #dc2626; }
+
+    .khung-loc { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px 12px 0 0; padding: 16px 20px; display: flex; gap: 14px; align-items: flex-end; }
+    .nhom-o-loc { flex: 1; position: relative; }
+    .nhom-o-loc label { display: block; font-size: 11px; color: #64748b; margin-bottom: 6px; font-weight: 500; }
+    .hop-chon-custom { width: 100%; padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 8px; background: #fff; font-size: 13px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .menu-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-top: 4px; z-index: 50; display: none; }
+    .menu-dropdown.hien { display: block; }
+    .muc-dropdown { padding: 9px 12px; font-size: 13px; color: #334155; cursor: pointer; }
+    .muc-dropdown:hover, .muc-dropdown.chon { background: #64748b; color: #fff; }
+    .nut-loc-xac-nhan { background: #fff; border: 1px solid #e2e8f0; padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; }
+
+    .thanh-thao-tac-hang-loat { background: #fff; border: 1px solid #e2e8f0; border-top: none; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .thanh-thao-tac-hang-loat[hidden] { display: none; }
+    .so-muc-chon { font-size: 13px; font-weight: 600; color: #1e40af; }
+    .nut-tiep-nhan { background: #1d4ed8; color: #fff; border: none; padding: 7px 16px; border-radius: 6px; font-weight: 600; font-size: 12.5px; cursor: pointer; }
+    .nut-bo-chon { background: none; border: none; color: #64748b; font-size: 12.5px; cursor: pointer; margin-left: 12px; }
+
+    .khung-bang { background: #fff; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 12px 12px; overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+    th { padding: 12px 16px; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; background: #fff; }
+    td { padding: 14px 16px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+    
+    tr.hang-qua-han { background: #fef2f2; }
+    tr.da-chon { background: #ffffff; }
+    tr.hang-qua-han.da-chon { background: #fef2f2; }
+    
+    input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: #2563eb; }
+    .ma-su-co { color: #2563eb; font-weight: 600; text-decoration: none; }
+    .noi-dung-cell strong { display: block; font-size: 13px; }
+    .noi-dung-cell small { color: #94a3b8; font-size: 11px; }
+
+    .nhan-tt { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+    .nhan-tt.dung-han { background: #f0fdf4; color: #16a34a; }
+    .nhan-tt.qua-han { background: #fef2f2; color: #dc2626; }
+    .nhan-tt.sap-tre { background: #fffbeb; color: #d97706; }
+
+    .sla-cel { width: 140px; }
+    .sla-cel small { display: block; font-size: 11px; color: #64748b; margin-bottom: 4px; }
+    .thanh-tien-do-sla { width: 100%; height: 4px; background: #e2e8f0; border-radius: 2px; overflow: hidden; }
+    .tien-do-ruot { height: 100%; border-radius: 2px; }
+    .tien-do-ruot.xanh { background: #2563eb; }
+    .tien-do-ruot.do { background: #dc2626; }
+    .nut-ba-cham-ban { border: none; background: none; color: #94a3b8; font-size: 16px; cursor: pointer; }
+
+    .khung-phan-trang { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; font-size: 12px; color: #94a3b8; }
+    .danh-sach-trang { display: flex; gap: 4px; }
+    .nut-trang { width: 28px; height: 28px; border: 1px solid #e2e8f0; background: #fff; border-radius: 6px; display: grid; place-items: center; font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer; }
+    .nut-trang.hien-tai { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
+
+    .toast-thong-bao { position: fixed; right: 24px; bottom: 24px; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 16px rgba(15,23,42,.08); font-size: 12.5px; font-weight: 500; color: #0f172a; opacity: 0; transform: translateY(15px); transition: all .25s ease-out; z-index: 9999; pointer-events: none; }
+    .toast-thong-bao.hien { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .icon-toast-xanh { color: #16a34a; display: flex; align-items: center; }
+    .nut-dong-toast { border: none; background: none; color: #64748b; font-size: 14px; margin-left: 6px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <div class="trang-sla">
+    <div class="nhan-chuyen-muc">KIỂM SOÁT CHẤT LƯỢNG</div>
+    
+    <div class="tieu-de-khung">
+      <div>
+        <h1>Theo dõi SLA</h1>
+        <p class="mo-ta-trang">Phát hiện sớm nguy cơ trễ hạn và điều phối nguồn lực.</p>
+      </div>
+      <button class="nut-dieu-chinh-sla" id="nutDieuChinhSLA">Điều chỉnh SLA</button>
+    </div>
+
+    <div class="luoi-thong-ke">
+      <div class="the-thong-ke">
+        <div class="icon-tk xanh-duong">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="noi-dung-tk">
+          <label>Sự cố đang mở</label>
+          <strong>86</strong>
+          <small class="tang">+12% so với hôm qua</small>
+        </div>
+      </div>
+
+      <div class="the-thong-ke">
+        <div class="icon-tk do">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="12" y1="9" x2="12.01" y2="9"/></svg>
+        </div>
+        <div class="noi-dung-tk">
+          <label>Sự cố quá hạn</label>
+          <strong>7</strong>
+          <small class="giam">-2 so với hôm qua</small>
+        </div>
+      </div>
+
+      <div class="the-thong-ke">
+        <div class="icon-tk tim">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="noi-dung-tk">
+          <label>Xử lý trung bình</label>
+          <strong>18,4h</strong>
+          <small class="tang">-8% so với hôm qua</small>
+        </div>
+      </div>
+
+      <div class="the-thong-ke">
+        <div class="icon-tk xanh-la">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="noi-dung-tk">
+          <label>Đúng hạn</label>
+          <strong>92,6%</strong>
+          <small class="tang">+4.2% so với hôm qua</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="khung-loc">
+      <div class="nhom-o-loc">
+        <label>Khu vực</label>
+        <div class="hop-chon-custom" id="hopChonKhuVuc"><span id="txtKhuVuc">Tất cả khu vực</span> ▾</div>
+        <div class="menu-dropdown" id="menuKhuVuc">
+          <div class="muc-dropdown chon" data-val="Tất cả khu vực">Tất cả khu vực</div>
+          <div class="muc-dropdown" data-val="Cơ sở hạ tầng">Cơ sở hạ tầng</div>
+        </div>
+      </div>
+
+      <div class="nhom-o-loc">
+        <label>Mức ưu tiên</label>
+        <div class="hop-chon-custom" id="hopChonUuTien"><span id="txtUuTien">Tất cả</span> ▾</div>
+        <div class="menu-dropdown" id="menuUuTien">
+          <div class="muc-dropdown chon" data-val="Tất cả">Tất cả</div>
+          <div class="muc-dropdown" data-val="Cao">Cao</div>
+          <div class="muc-dropdown" data-val="Trung bình">Trung bình</div>
+          <div class="muc-dropdown" data-val="Thấp">Thấp</div>
+        </div>
+      </div>
+
+      <div class="nhom-o-loc">
+        <label>Trạng thái</label>
+        <div class="hop-chon-custom" id="hopChonTrangThai"><span id="txtTrangThai">Tất cả trạng thái</span> ▾</div>
+        <div class="menu-dropdown" id="menuTrangThai">
+          <div class="muc-dropdown chon" data-val="Tất cả trạng thái">Tất cả trạng thái</div>
+        </div>
+      </div>
+
+      <div class="nhom-o-loc">
+        <label>Sắp xếp</label>
+        <div class="hop-chon-custom" id="hopChonSapXep"><span id="txtSapXep">Ưu tiên cao nhất</span> ▾</div>
+        <div class="menu-dropdown" id="menuSapXep">
+          <div class="muc-dropdown chon" data-val="Ưu tiên cao nhất">Ưu tiên cao nhất</div>
+        </div>
+      </div>
+
+      <button class="nut-loc-xac-nhan" id="nutLocXacNhan">Lọc</button>
+    </div>
+
+    <div class="thanh-thao-tac-hang-loat" id="thanhThaoTacHangLoat" hidden>
+      <span class="so-muc-chon" id="txtSoMucChon">4 mục đã chọn</span>
+      <div>
+        <button class="nut-tiep-nhan" id="nutTiepNhanHangLoat">Tiếp nhận</button>
+        <button class="nut-bo-chon" id="nutBoChonTatCa">Bỏ chọn</button>
+      </div>
+    </div>
+
+    <div class="khung-bang">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40px;"><input type="checkbox" id="chkChonTatCa"></th>
+            <th>MÃ SỰ CỐ</th>
+            <th>NỘI DUNG</th>
+            <th>KHU VỰC</th>
+            <th>TRẠNG THÁI</th>
+            <th>SLA CÒN LẠI</th>
+            <th style="width: 40px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="checkbox" class="chk-hang"></td>
+            <td><a href="#" class="ma-su-co">#IS-2041</a></td>
+            <td class="noi-dung-cell"><strong>Đèn đường không hoạt động</strong><small>12 phút trước</small></td>
+            <td>P. Bến Nghé, Quận 1</td>
+            <td><span class="nhan-tt dung-han">• Đúng hạn</span></td>
+            <td class="sla-cel"><small>6 giờ</small><div class="thanh-tien-do-sla"><div class="tien-do-ruot xanh" style="width: 70%;"></div></div></td>
+            <td><button class="nut-ba-cham-ban">•••</button></td>
+          </tr>
+          <tr class="hang-qua-han">
+            <td><input type="checkbox" class="chk-hang" checked></td>
+            <td><a href="#" class="ma-su-co">#IS-2039</a></td>
+            <td class="noi-dung-cell"><strong>Ổ gà lớn trên mặt đường</strong><small>48 phút trước</small></td>
+            <td>P. Đa Kao, Quận 1</td>
+            <td><span class="nhan-tt qua-han">• Quá hạn</span></td>
+            <td class="sla-cel"><small style="color:#dc2626;">1 giờ 20 phút</small><div class="thanh-tien-do-sla"><div class="tien-do-ruot do" style="width: 100%;"></div></div></td>
+            <td><button class="nut-ba-cham-ban">•••</button></td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" class="chk-hang"></td>
+            <td><a href="#" class="ma-su-co">#IS-2036</a></td>
+            <td class="noi-dung-cell"><strong>Cây đổ chắn lối đi bộ</strong><small>2 giờ trước</small></td>
+            <td>P. Nguyễn Thái Bình</td>
+            <td><span class="nhan-tt sap-tre">• Sắp trễ</span></td>
+            <td class="sla-cel"><small>8 giờ</small><div class="thanh-tien-do-sla"><div class="tien-do-ruot xanh" style="width: 80%;"></div></div></td>
+            <td><button class="nut-ba-cham-ban">•••</button></td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" class="chk-hang"></td>
+            <td><a href="#" class="ma-su-co">#IS-2028</a></td>
+            <td class="noi-dung-cell"><strong>Nắp cống bị hư hỏng</strong><small>Hôm qua</small></td>
+            <td>P. Tân Định, Quận 1</td>
+            <td><span class="nhan-tt dung-han">• Đúng hạn</span></td>
+            <td class="sla-cel"><small>9 giờ</small><div class="thanh-tien-do-sla"><div class="tien-do-ruot xanh" style="width: 85%;"></div></div></td>
+            <td><button class="nut-ba-cham-ban">•••</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="khung-phan-trang">
+        <span id="txtHienThiKetQua">Hiển thị 1-4 trong 24 kết quả</span>
+        <div class="danh-sach-trang">
+          <div class="nut-trang">‹</div>
+          <div class="nut-trang hien-tai" data-page="1">1</div>
+          <div class="nut-trang" data-page="2">2</div>
+          <div class="nut-trang" data-page="3">3</div>
+          <div class="nut-trang">›</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-thong-bao" id="toastThongBao">
+    <span class="icon-toast-xanh">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    </span>
+    <span id="txtNoiDungToast">Đã cập nhật dữ liệu</span>
+    <button class="nut-dong-toast" id="nutDongToast">×</button>
+  </div>
+
+  <script>
+    let toastTimer;
+
+    const thongBaoToast = (noiDung) => {
+      const el = document.getElementById('toastThongBao');
+      document.getElementById('txtNoiDungToast').textContent = noiDung;
+      el.classList.add('hien');
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('hien'), 3500);
+    };
+
+    document.getElementById('nutDongToast').onclick = () => {
+      document.getElementById('toastThongBao').classList.remove('hien');
+    };
+
+    document.getElementById('nutDieuChinhSLA').onclick = () => {
+      thongBaoToast('Đã mở chế độ điều chỉnh chính sách SLA');
+    };
+
+    document.getElementById('nutLocXacNhan').onclick = () => {
+      thongBaoToast('Đang hiển thị tất cả kết quả');
+    };
+
+    const ganDropdown = (idHop, idMenu, idTxt) => {
+      const hop = document.getElementById(idHop);
+      const menu = document.getElementById(idMenu);
+      const txt = document.getElementById(idTxt);
+
+      hop.onclick = (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.menu-dropdown').forEach(m => m !== menu && m.classList.remove('hien'));
+        menu.classList.toggle('hien');
+      };
+
+      menu.querySelectorAll('.muc-dropdown').forEach(item => {
+        item.onclick = () => {
+          txt.textContent = item.dataset.val;
+          menu.querySelectorAll('.muc-dropdown').forEach(m => m.classList.remove('chon'));
+          item.classList.add('chon');
+          menu.classList.remove('hien');
+        };
+      });
+    };
+
+    ganDropdown('hopChonKhuVuc', 'menuKhuVuc', 'txtKhuVuc');
+    ganDropdown('hopChonUuTien', 'menuUuTien', 'txtUuTien');
+    ganDropdown('hopChonTrangThai', 'menuTrangThai', 'txtTrangThai');
+    ganDropdown('hopChonSapXep', 'menuSapXep', 'txtSapXep');
+
+    document.onclick = () => document.querySelectorAll('.menu-dropdown').forEach(m => m.classList.remove('hien'));
+
+    const chkTatCa = document.getElementById('chkChonTatCa');
+    const chkHangs = document.querySelectorAll('.chk-hang');
+    const thanhThaoTac = document.getElementById('thanhThaoTacHangLoat');
+    const txtSoMucChon = document.getElementById('txtSoMucChon');
+
+    const capNhatThaoTac = () => {
+      const count = document.querySelectorAll('.chk-hang:checked').length;
+      chkHangs.forEach(chk => chk.closest('tr').classList.toggle('da-chon', chk.checked));
+
+      thanhThaoTac.hidden = count === 0;
+      txtSoMucChon.textContent = `${count} mục đã chọn`;
+      chkTatCa.checked = (count === chkHangs.length && count > 0);
+    };
+
+    chkTatCa.onchange = () => {
+      chkHangs.forEach(chk => chk.checked = chkTatCa.checked);
+      capNhatThaoTac();
+    };
+
+    chkHangs.forEach(chk => chk.onchange = capNhatThaoTac);
+
+    document.getElementById('nutBoChonTatCa').onclick = () => {
+      chkTatCa.checked = false;
+      chkHangs.forEach(chk => chk.checked = false);
+      capNhatThaoTac();
+    };
+
+    document.getElementById('nutTiepNhanHangLoat').onclick = () => {
+      const count = document.querySelectorAll('.chk-hang:checked').length;
+      thongBaoToast(`Đã tiếp nhận ${count} mục`);
+    };
+
+    document.querySelectorAll('.nut-trang[data-page]').forEach(nut => {
+      nut.onclick = () => {
+        document.querySelectorAll('.nut-trang[data-page]').forEach(n => n.classList.remove('hien-tai'));
+        nut.classList.add('hien-tai');
+        const p = nut.dataset.page;
+        document.getElementById('txtHienThiKetQua').textContent = `Hiển thị ${(p-1)*4 + 1}-${p*4} trong 24 kết quả`;
+      };
+    });
+
+    capNhatThaoTac();
+  </script>
+</body>
+</html>
